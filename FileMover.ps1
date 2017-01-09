@@ -1,6 +1,24 @@
-﻿$dir = 'C:\testing\photos1'
+﻿<#
+.Synopsis
+   FileOrganiser moves files according to their last modified date
+.DESCRIPTION
+   This script will list all files in a directory and move them into a sub dirctory according to their
+   last modified date.
+.EXAMPLE
+   .\FileMover.ps1 -BaseDirectory c:\photos\
+#>
+Param
+(
+    # BaseDirectory is the directory in which this script should operate
+    [Parameter(Mandatory=$true,
+                ValueFromPipelineByPropertyName=$true,
+                Position=0)]
+    $BaseDirectory
+)
 
-cd $dir
+
+
+cd $BaseDirectory
 
 $files = Get-ChildItem -File
 
@@ -11,7 +29,7 @@ foreach ($file in $files)
     $day = $file.LastWriteTime.Day
     $name = $file.BaseName
     
-    $destination = "$dir\$year\$month\$day"
+    $destination = "$BaseDirectory\$year\$month\$day"
 
     if (Test-Path $destination)
     {
